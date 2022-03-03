@@ -14,7 +14,8 @@ Vue component (Vue 2 supported) representing:
 Now you can install package from npm only:
 
 ```javascript
- npm i @eneropl/vue-partition
+// npm
+npm i @eneropl/vue-partition
 ```
 
 Once the package is installed, you can import it into your component:
