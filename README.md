@@ -44,7 +44,7 @@ The component accepts 6 props (one of which is provided for the v-model property
   </tr>
   <tr>
     <td>total</td>
-    <td><code>[Number, Null]</code></td>
+    <td><code>Number | Null</code></td>
     <td>The sum of the value values in the options array</td>
   </tr>
   <tr>
@@ -64,7 +64,7 @@ The component accepts 6 props (one of which is provided for the v-model property
   </tr>
   <tr>
     <td>max-value</td>
-    <td><code>[Number, Null]</code></td>
+    <td><code>Number | Null</code></td>
     <td>null</td>
   </tr>
 </table>
@@ -97,7 +97,7 @@ This property specifies the minimum allowed value that can be specified for the 
 
 By default, this property is 0. This means that when editing a partition, the current section may disappear if its "value" when changed is <= 0.
 
-### maxValue<sup><code>[Number, Null]</code> | default: null</sup>
+### maxValue<sup><code>Number | Null</code> | default: null</sup>
 A property that defines the maximum value that an element can only reach. If, while editing a partition, the current section reaches its maximum value, then it will stop being edited. Relative to the global "max-value" property defined for the partition component, that particular property will take precedence.
 
 By default, this property is "null". This means that the object does not have a maximum limit.
@@ -152,6 +152,18 @@ speak for themselves.
       }
     }
 ```
+
+## Total<sup><code>Number | Null</code></sup>
+The total value, which is defined as the sum of all "value" passed in "options". If the value is not specified, then the component will independently calculate the sum of all passed "value" in the array of "options" objects.
+
+## Step<sup><code>Number</code></sup>
+Specifying a value for this property will determine how many times your sections change. The default is 1, which means your changes to all sections will always be a multiple of 1 (will also work with any other integer values).
+
+## Disabled<sup><code>Boolean</code></sup>
+"true" value blocks the entire component.
+
+## MinValue & MaxValue<sup><code>Number</code></sup>
+Global setting of the minimum/maximum value for each section. Each section will comply with the set condition, except for those sections that do not define their own "minValue" and\or "maxValue" internally.
 
 ## Features in the plans
 - Extend the "focused" property so that you can chain "focused" elements to control the queue for editing;
