@@ -2,7 +2,10 @@
   "name": "@eneropl/vue-partition",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.js",
+  "main": "./dist/VuePartition.umd.min.js",
+  "browser": "./dist/VuePartition.umd.min.js",
+  "module": "./dist/VuePartition.umd.min.js",
+  "unpkg": "./dist/VuePartition.umd.min.js",
   "scripts": {
     "serve": "./scripts/init.sh && vue-cli-service serve serve/index.js",
     "build": "vue-cli-service build --target lib --name VuePartition src/index.js"
@@ -16,7 +19,12 @@
   ],
   "author": "EneroPl",
   "license": "MIT",
+  "engines": {
+    "node": ">=12"
+  },
   "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
     "@vue/cli-service": "^5.0.1",
     "css-loader": "^6.7.1",
     "file-loader": "^6.2.0",
@@ -29,6 +37,5 @@
     "vue-template-compiler": "^2.6.12",
     "webpack": "^5.70.0",
     "webpack-cli": "^4.9.2"
-  },
-  "dependencies": {}
+  }
 }
