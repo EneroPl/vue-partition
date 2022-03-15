@@ -8,7 +8,7 @@
           :ref="`ui-item-${index}`"
           class="ui-partition__item"
           :style="{
-            '--item-background': currentStyles(item).background,
+            '--item-background': sourceStyles[index].background,
             'width': parseValueToWidth(item.value) + 'px',
           }"
         >
@@ -17,26 +17,22 @@
             :ref="`ui-control-${index}`"
             class="ui-partition__control"
             :style="{
-              '--control-background': currentStyles(item).control.background,
-              '--control-border': currentStyles(item).control.border,
-              '--arrow-size': currentStyles(item).arrows.size,
+              '--control-background': sourceStyles[index].control.background,
+              '--control-border': sourceStyles[index].control.border,
+              '--arrow-size': sourceStyles[index].arrows.size,
               'z-index': lastControlIndex === index ? 2 : 1,
             }"
           >
-            <div
-              class="ui-partition__arrow ui-partition__arrow--left"
-              :style="{
-                '--arrow-background': currentStyles(item, index).arrows.prev.background,
-                '--arrow-border': currentStyles(item).arrows.prev.border,
-              }"
-            />
-            <div
-              class="ui-partition__arrow ui-partition__arrow--right"
-              :style="{
-                '--arrow-background': currentStyles(item, index).arrows.next.background,
-                '--arrow-border': currentStyles(item).arrows.next.border,
-              }"
-            />
+            <template v-for="(arrow, arrowIndex) in ['prev', 'next']">
+              <div
+                :key="arrowIndex"
+                :class="['ui-partition__arrow', `ui-partition__arrow--${arrow}`]"
+                :style="{
+                  '--arrow-background': sourceStyles[index].arrows[arrow].background,
+                  '--arrow-border': sourceStyles[index].arrows[arrow].border,
+                }"
+              />
+            </template>
           </div>
         </div>
       </div>
@@ -45,31 +41,22 @@
 </template>
 
 <script>
+import { StyleService } from './../../services/styles';
+
 export default {
   model: {
     prop: 'options',
     event: 'input'
   },
   props: {
-    /*
-      Массив объектов данных для отображения\редактирования.
-      О свойствах объекта options читайте документацию по компоненту.
-    */
     options: {
       type: Array,
       required: true,
     },
-    /*
-      Сумма всех объектов value
-    */
     total: {
       type: Number,
       default: null,
     },
-    /*
-      Изменение по value при минимальном условии, что оно изменилось не менее
-      чем на step. Step значение должно быть целым числом.
-    */
     step: {
       type: Number,
       default: 1,
@@ -77,18 +64,10 @@ export default {
         return value % 1 === 0 && value >= 1;
       }
     },
-    /*
-      Блокирование всего компонента
-    */
     disabled: {
       type: Boolean,
       default: false,
     },
-    /*
-      Глобальное v значение.
-      Если в конкретном объекте не указан minValue, то значение будет браться
-      отсюда.
-    */
     minValue: {
       type: Number,
       default: 0,
@@ -96,57 +75,50 @@ export default {
         return value >= 0;
       }
     },
-    /*
-      Глобальное максимальное значение. Работает также.
-    */
     maxValue: {
       type: Number,
       default: null,
     },
+    styles: {
+      type: Object,
+      default: () => ({})
+    }
   },
   data() {
     return {
       fieldWidth: null,
       isTracking: false,
       lastControlIndex: null,
-      /*
-        Объект элемента, который редактируется на данный момент:
-        index: number - индекс объекта с options
-        el: HTMLElement - ссылка на DOM-element редактируемого айтема
-        rect: RectElement - разметка computed свойств для el
-        data - исходный объект options[index]
-      */
       control: {
         index: null,
         el: null,
         rect: {},
         data: {},
       },
-      /*
-        Стейт изменений при движении контроллера:
-        width: number - единицы обновлённой ширины.
-        value: number - единица обновлённого значения value относительно width
-        movementSide: 'left' | 'right' - направление движения мыши в момент
-        изменений.
-      */
       shiftState: {
         width: null,
         value: null,
         movementSide: ''
       },
       sourceTotal: null,
+      sourceStyles: [],
+      styleService: {},
     };
   },
   created() {
     this.sourceOptions = this.options;
-    /*
-      Создаём total на основе суммы всех value в объектах, если не передаётся
-      total через пропс
-    */
-    this.sourceTotal = this.total || this.options.reduce((acc, item) => {
-      acc += item.value || 0;
+    this.sourceTotal = this.total || this.sourceOptions.reduce((acc, item) => {
+      acc += item;
       return acc;
     }, 0);
+
+    this.styleService = new StyleService(this.styles);
+
+    this.sourceOptions.forEach(item => {
+      this.sourceStyles.push(
+        this.styleService.initStyles(item?.styles || {})
+      );
+    })
   },
   mounted() {
     this.fieldWidth = this.$refs['ui-field'].getBoundingClientRect().width;
@@ -174,10 +146,6 @@ export default {
         this.$emit('input', newOptions);
       }
     },
-    /*
-      Корректировка step значения с преобразованием в width относительно
-      ширины контейнера.
-    */
     availableStep() {
       return (this.fieldWidth / this.sourceTotal) * this.step;
     },
@@ -204,11 +172,7 @@ export default {
       if (!!ref.data.disabled) {
         return false;
       }
-      /*
-        shift определяет направление движения мыши.
-        Отрицательное значение - движение влево
-        Положительное значение - движение вправо
-      */
+
       const shift = pageX - (ref.rect.left + ref.rect.width);
       const shiftValue = this.parseWidthToValue(
         this.getWidthByAvailableStep(Math.abs(shift))
@@ -228,10 +192,6 @@ export default {
         this.updateRefs();
       }
     },
-    /*
-      Метод определения и изменения доступного элемента относительно shift
-      и состояния контроллера.
-    */
     updateRefs(stacked = false) {
       if (Math.abs(this.shiftState.width) === 0) return false;
 
@@ -244,12 +204,7 @@ export default {
 
         if (this.shiftState?.movementSide === 'right') {
           this.sourceOptions[this.control.index].value += this.shiftState.value;
-          /*
-            Если value смещения больше чем value объекта, то вычитаем разницу
-            и перевызываем метод, в котором разница в value пройдёт ещё раз все
-            проверки, чтобы, если у последующего элемента будет такое же
-            true условие, то он не сломал ничего.
-          */
+          
           if (ref.data.value - this.shiftState.value <= 0) {
             const untracked = this.shiftState.value - ref.data.value;
             this.sourceOptions[this.control.index].value -= untracked;
@@ -295,12 +250,6 @@ export default {
 
               break;
             };
-            /*
-              value смещения больше ширины предыдущего редактируемого объекта
-              с учётом того, что мы уже не работаем с редактируемым объектом
-              (control.data.value === 0), поэтому производим вычисления в
-              соседних объектах
-            */
             case (
               prevRef && prevRef.data.value - this.shiftState.value <= minPrevValue
               && controlValue <= minControlValue
@@ -321,10 +270,6 @@ export default {
 
               break;
             };
-            /*
-              value смещений больше ширины редактируемого объекта.
-              Вычисляем разницу и распределяем поровну между соседними объектами.
-            */
             case prevRef && controlValue - this.shiftState.value <= minControlValue: {
               const correctControlValue = controlValue - minControlValue;
               const untracked = this.shiftState.value - correctControlValue;
@@ -366,10 +311,6 @@ export default {
         };
       }
     },
-    /*
-      Аксессор доступа. Запрещяет выполнение движения мышки, если не соблюдены
-      поставленные условия.
-    */
     isAccessedMovement(width) {
       if (this.shiftState.value === 0 || !this.isTracking) return false;
 
@@ -380,9 +321,7 @@ export default {
       } = this.control.data;
 
       const isExistController = this.control.data.value > minControlValue;
-      /*
-        Валидация на состояния editType
-      */
+      
       switch (true) {
         case this.shiftState.movementSide === 'left' && !isExistController: {
           if (this.control.data.editType === 'local') {
@@ -428,10 +367,6 @@ export default {
 
       return false;
     },
-    /*
-      Получение более подробной информации о DOM-элементе:
-      refKey: string - ключ-указатель на ref элемент
-    */
     getRefDetail(refKey) {
       const foundedRef = this.$refs[refKey][0] || this.$refs[refKey];
       const optionIndex = Number.parseInt(refKey.split('-')[2], 10)
@@ -450,9 +385,6 @@ export default {
 
       return refState;
     },
-    /*
-      Получение доступного элемента относительно shift & стейта control.data
-    */
     getAvailableNextRef(trackSide = '') {
       const defaultRefIndex = this.sourceOptions.findIndex(item => {
         return !!item?.focused;
@@ -462,10 +394,6 @@ export default {
         minValue: minControlValue = this.minValue || 0
       } = this.control.data;
 
-      /*
-        Поиск фокусируемого объекта, который ещё должен соответствовать
-        условиям доступности для редактирования.
-      */
       if (defaultRefIndex >= 0) {
         const defaultRef = this.getRefDetail(`ui-item-${defaultRefIndex}`);
 
@@ -473,12 +401,8 @@ export default {
           return defaultRef;
         }
       }
-      /*
-        Если фокусируемого объекта нет или он не соответствует условиям,
-        то выполняем дефолтный алгоритм поиска доступных объектов.
-      */
+      
       switch (true) {
-        // Правосторонний поиск доступных объектов
         case trackSide === 'right':
         case this.shiftState.movementSide === 'right': {
           for (let i = this.control.index + 1; i < this.sourceOptions.length - 1; i++) {
@@ -491,7 +415,6 @@ export default {
 
           break;
         };
-        // Левосторонний поиск доступных объектов при control.data.value <= 0;
         case trackSide === 'left':
         case this.shiftState.movementSide === 'left' && this.control.data.value <= minControlValue: {
           for (let i = this.control.index - 1; i >= 0; i--) {
@@ -523,9 +446,6 @@ export default {
 
       return false;
     },
-    /*
-      Метод валидации ref-элемента на соответствие кастомным условиям.
-    */
     isValidRef(ref) {
       const {
         disabled = false,
@@ -545,31 +465,6 @@ export default {
           return false;
       }
     },
-    /*
-      Вызываемый метод возвращает текущее состояние ui-field элемента:
-      total: number - ширина элемента
-      untracked: number - незарегестрированная ширина (пустое пространство)
-    */
-    fieldState() {
-      let totalWidth = 0;
-      let totalValue = 0;
-
-      for (let i = 0; i < this.sourceOptions.length; i++) {
-        const indexedRef = this.getRefDetail(`ui-item-${i}`);
-        totalWidth += parseInt(indexedRef.el.style.width);
-        totalValue += indexedRef.data.value;
-      }
-
-      return {
-        total: totalWidth,
-        untracked: this.getWidthByAvailableStep(this.fieldWidth - totalWidth),
-        totalValue: this.parseWidthToValue(totalWidth),
-      };
-    },
-    /*
-      Работает при расфокусировки\завершении событии мышки.
-      Снимает все привязки и возвращает массив с новыми value у объектов
-    */
     closeTracking() {
       if (!this.isTracking) {
         return false;
@@ -578,77 +473,10 @@ export default {
       const fieldRef = this.$refs['ui-field'];
       fieldRef.removeEventListener('pointermove', this.handleMovement);
 
-      this.sourceOptions = this.sourceOptions.map(item => {
-        const itemMinValue = item.minValue || this.minValue || 0;
-        const itemMaxValue = item.maxValue || this.maxValue || null;
-
-        switch (true) {
-          case item.value < itemMinValue:
-            item.value = itemMinValue;
-            return item;
-          case itemMaxValue && item.value > itemMaxValue:
-            item.value = itemMaxValue;
-            return item;
-          default:
-            return item;
-        }
-      });
-
       this.control = {};
       this.shiftState = {};
       this.isTracking = false;
     },
-    /*
-      Пересобираем options элемента, добавляя свойства по умолчанию к тем местам,
-      которые не указаны.
-    */
-    currentStyles(item, index = null) {
-      const options = item.settings;
-      const { control = {}, arrows = {} } = item.settings;
-
-      const styles = {
-        background: options.background || 'transparent',
-        control: {
-          background: control?.background || '#FFFFFF',
-          border: [
-            `${control?.borderWidth || 1}px`,
-            control?.borderStyle || 'solid',
-            control?.borderColor || 'transparent',
-          ].join(' '),
-        },
-        arrows: {
-          size: `${arrows?.size || 10}px`,
-          prev: {
-            background: arrows?.prev?.background || arrows?.background || '#FFF',
-            border: [
-              `${arrows?.prev?.borderWidth || arrows?.borderWidth || 1}px`,
-              arrows?.prev?.borderStyle || arrows?.borderStyle || 'solid',
-              arrows?.prev?.borderColor || arrows?.borderColor || 'transparent'
-            ].join(' '),
-          },
-          next: {
-            background: arrows?.next?.background || arrows?.background || '#FFF',
-            border: [
-              `${arrows?.next?.borderWidth || arrows?.borderWidth || 1}px`,
-              arrows?.next?.borderStyle || arrows?.borderStyle || 'solid',
-              arrows?.next?.borderColor || arrows?.borderColor || 'transparent'
-            ].join(' '),
-          }
-        },
-      };
-
-      return styles;
-    },
-    /*
-      Метод вычисления доступной ширины элемента относительно availableStep.
-      Возвращает ширину, соответствующую условиям availableStep.
-
-      width: string - новая ширина
-      shift: string - разница старой ширины и width
-
-      Если не передаём 2 параметр, то просто форматируем width и возвращаем
-      его корректное значение.
-    */
     getWidthByAvailableStep(width, shift = 0) {
       const correctedWidth = width - (width % this.availableStep);
       const correctedShift = Math.abs(shift) - (Math.abs(shift) % this.availableStep);
@@ -664,11 +492,9 @@ export default {
           return correctedWidth;
       }
     },
-    // Парсим value объекта в ширину относительно ширины контейнера
     parseValueToWidth(value) {
       return value * (this.fieldWidth / this.sourceTotal);
     },
-    // Парсим ширишу элемента в value
     parseWidthToValue(width) {
       return width / this.availableStep;
     },
@@ -678,9 +504,7 @@ export default {
 
 <style lang="scss">
   .ui-partition {
-    // Это свойство никогда не переопределять!
     box-sizing: content-box;
-    //
     max-width: 500px;
     width: 100%;
     height: 54px;
@@ -695,7 +519,6 @@ export default {
       display: flex;
       width: 100%;
       height: 100%;
-      border: 1px solid;
     }
 
     &__item {
@@ -746,14 +569,12 @@ export default {
       height: var(--arrow-size);
       overflow: hidden;
 
-      &--left {
-        left: $arrow-position;
-
+      &--prev,
+      &--next {
         &::before {
           position: absolute;
           content: '';
           top: calc(50% - (var(--arrow-size) / 2));
-          left: $arrow-offset;
           width: var(--arrow-size);
           height: var(--arrow-size);
           background-color: var(--arrow-background);
@@ -762,19 +583,19 @@ export default {
         }
       }
 
-      &--right {
+      &--prev {
+        left: $arrow-position;
+
+        &::before {
+          left: $arrow-offset;
+        }
+      }
+
+      &--next {
         right: $arrow-position;
 
         &::before {
-          position: absolute;
-          content: '';
-          top: calc(50% - (var(--arrow-size) / 2));
           right: $arrow-offset;
-          width: var(--arrow-size);
-          height: var(--arrow-size);
-          background-color: var(--arrow-background);
-          border: var(--arrow-border);
-          transform: rotate(45deg);
         }
       }
     }

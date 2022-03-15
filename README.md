@@ -82,10 +82,10 @@ A simple object that defines a technical view looks like this:
   editType: 'local',
   disabled: false,
   focused: false,
-  settings: {},
+  styles: {},
 }
 ```
-The presented object properties, except for "settings", define the technical characteristics of a particular data object. Each array object can set its own configuration. More details about each property below:
+The presented object properties, except for "styles", define the technical characteristics of a particular data object. Each array object can set its own configuration. More details about each property below:
 
 ### value<sup><code>Number</code> | required</sup>
 Required property, the value of which is used for display/editing inside the component. If this property is not specified, then it is defined as 0.
@@ -114,7 +114,7 @@ Specifies the state of the section. If a section is disabled ("disabled: true"),
 ### focused<sup><code>Boolean</code> | default: false</sup>
 Specifies the ability to set the default section as the section that will first accept changes to the main editable section. This means that wherever you define an editable object (even far, far away from the "focused: true" setting), it will first work on the focused section as long as its modifier conditions return "true".
 
-### settings<sup><code>Object</code> | default: {}</sup>
+### styles<sup><code>Object</code> | default: {}</sup>
 An object that represents customization settings and has the following editing properties
 (property values are provided as default values if you don't specify them).
 
@@ -168,7 +168,7 @@ Global setting of the minimum/maximum value for each section. Each section will 
 ## Features in the plans
 - Extend the "focused" property so that you can chain "focused" elements to control the queue for editing;
 - Extend the "editType" property and add a new "editableRange" property, which will allow you to define editable elements within a radius relative to the editable section;
-- Defining the global property "settings" for customizing sections. Now the implementation is such that we define it for each specific section separately;
+- Defining the global property "styles" for customizing sections. Now the implementation is such that we define it for each specific section separately;
 - Write proper documentation; xD
 - Type the component to diversify the visual display of data (for example, add a pie chart);
 - Switch from manual testing to automatic (so far I have paws).
