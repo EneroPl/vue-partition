@@ -1,6 +1,6 @@
 <template>
   <div>
-      <VuePartition v-model="options" :total="total" />
+      <VuePartition v-model="options" :total="total" :step="5" />
       <div>
         <p v-for="(item, index) in options" :key="index">
           #{{ index }}: {{ item.value }}
@@ -38,7 +38,10 @@ export default {
           minValue: 10,
           editable: true,
           styles: {
-            background: "#00CD66"
+            background: "#00CD66",
+            arrows: {
+              background: 'yellow'
+            }
           }
         },
         {

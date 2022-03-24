@@ -8,7 +8,7 @@ const initialStyles = {
     background: '#FFFFFF',
     borderWidth: 1,
     borderStyle: 'solid',
-    borderColor: '#FFFFFF'
+    borderColor: '#000000'
   },
   arrows: {
     size: 10,
@@ -16,13 +16,13 @@ const initialStyles = {
       background: '#FFFFFF',
       borderWidth: 1,
       borderStyle: 'solid',
-      borderColor: '#FFFFFF'
+      borderColor: '#000000'
     },
     next: {
       background: '#FFFFFF',
       borderWidth: 1,
       borderStyle: 'solid',
-      borderColor: '#FFFFFF'
+      borderColor: '#000000'
     }
   }
 };
@@ -40,6 +40,7 @@ export class StyleService {
   set currentStyle(value) {
     if (typeof value !== 'object') {
       this._currentStyle = {};
+      console.warn('Style property is not type object');
     }
 
     this._currentStyle = value;
@@ -57,19 +58,17 @@ export class StyleService {
       arrows: {
         size: `${this.getExistProperty('arrows.size')}px`,
         prev: {
-          background: this.getExistProperty('arrows.prev.background'),
+          background: this.getExistProperty('arrows.prev.background', true),
           border: this.getBorderStyles('arrows.prev')
         },
         next: {
-          background: this.getExistProperty('arrows.next.background'),
+          background: this.getExistProperty('arrows.next.background', true),
           border: this.getBorderStyles('arrows.next')
         },
       }
     }
   }
   /**
-   * TODO: Add generals arrows\control find border props.
-   * 
    * This method find nested value of properties chaining in 3 objects
    * and return first founded trusty value.
    * 
@@ -80,7 +79,7 @@ export class StyleService {
    * 
    * If prop not founded it's return for next object to initialStyles.
   */
-  getExistProperty(target) {
+  getExistProperty(target, selectGeneral = false) {
     const propsChain = target?.split('.') || target;
     const stylesCollection = [this.currentStyle, this.componentStyles, initialStyles];
 
@@ -89,8 +88,19 @@ export class StyleService {
       let isExistValue = false;
 
       for (let j = 0; j < propsChain.length; j++) {
-        const currentProp = propsChain[j];
-        const currentValue = currentStyle[currentProp];
+        let currentProp = propsChain[j];
+        let currentValue = currentStyle[currentProp];
+
+        if (!currentValue && selectGeneral) {
+          const generalObject = stylesCollection[i][propsChain[0]] || false;
+          
+          if (generalObject && generalObject[propsChain[propsChain.length - 1]]) {
+            currentStyle = generalObject[propsChain[propsChain.length - 1]];
+            isExistValue = true;
+
+            break;
+          }
+        }
 
         if (!currentValue) {
           break;

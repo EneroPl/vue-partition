@@ -194,27 +194,147 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ const setPublicPath = (null);
 
-;// CONCATENATED MODULE: ./node_modules/@vue/cli-service/node_modules/@vue/vue-loader-v15/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/@vue/cli-service/node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./src/components/VuePartition.vue?vue&type=template&id=11531a3d&
+;// CONCATENATED MODULE: ./node_modules/@vue/cli-service/node_modules/@vue/vue-loader-v15/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/@vue/cli-service/node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./src/components/VuePartition.vue?vue&type=template&id=e2cfe3ee&
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"ui-partition"},[_c('div',{ref:"ui-field",staticClass:"ui-partition__field"},[_c('div',{staticClass:"ui-partition__items"},_vm._l((_vm.options),function(item,index){return _c('div',{key:index,ref:("ui-item-" + index),refInFor:true,staticClass:"ui-partition__item",style:({
-          '--item-background': _vm.currentStyles(item).background,
+          '--item-background': _vm.sourceStyles[index].background,
           'width': _vm.parseValueToWidth(item.value) + 'px',
         })},[(item.editable)?_c('div',{ref:("ui-control-" + index),refInFor:true,staticClass:"ui-partition__control",style:({
-            '--control-background': _vm.currentStyles(item).control.background,
-            '--control-border': _vm.currentStyles(item).control.border,
-            '--arrow-size': _vm.currentStyles(item).arrows.size,
+            '--control-background': _vm.sourceStyles[index].control.background,
+            '--control-border': _vm.sourceStyles[index].control.border,
+            '--arrow-size': _vm.sourceStyles[index].arrows.size,
             'z-index': _vm.lastControlIndex === index ? 2 : 1,
-          })},[_c('div',{staticClass:"ui-partition__arrow ui-partition__arrow--left",style:({
-              '--arrow-background': _vm.currentStyles(item, index).arrows.prev.background,
-              '--arrow-border': _vm.currentStyles(item).arrows.prev.border,
-            })}),_c('div',{staticClass:"ui-partition__arrow ui-partition__arrow--right",style:({
-              '--arrow-background': _vm.currentStyles(item, index).arrows.next.background,
-              '--arrow-border': _vm.currentStyles(item).arrows.next.border,
-            })})]):_vm._e()])}),0)])])}
+          })},[_vm._l((['prev', 'next']),function(arrow,arrowIndex){return [_c('div',{key:arrowIndex,class:['ui-partition__arrow', ("ui-partition__arrow--" + arrow)],style:({
+                '--arrow-background': _vm.sourceStyles[index].arrows[arrow].background,
+                '--arrow-border': _vm.sourceStyles[index].arrows[arrow].border,
+              })})]})],2):_vm._e()])}),0)])])}
 var staticRenderFns = []
 
 
-;// CONCATENATED MODULE: ./src/components/VuePartition.vue?vue&type=template&id=11531a3d&
+;// CONCATENATED MODULE: ./src/components/VuePartition.vue?vue&type=template&id=e2cfe3ee&
 
+;// CONCATENATED MODULE: ./services/styles.js
+/**
+ * StyleService using for construct each element of options styles
+ * by 3 objects: element styles, global component styles & default (initialStyles).
+*/
+const initialStyles = {
+  background: 'transparent',
+  control: {
+    background: '#FFFFFF',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: '#FFFFFF'
+  },
+  arrows: {
+    size: 10,
+    prev: {
+      background: '#FFFFFF',
+      borderWidth: 1,
+      borderStyle: 'solid',
+      borderColor: '#FFFFFF'
+    },
+    next: {
+      background: '#FFFFFF',
+      borderWidth: 1,
+      borderStyle: 'solid',
+      borderColor: '#FFFFFF'
+    }
+  }
+};
+
+class StyleService {
+  constructor (componentStyles) {
+    this.componentStyles = componentStyles;
+    this._currentStyle = {};
+  }
+
+  get currentStyle() {
+    return this._currentStyle;
+  }
+
+  set currentStyle(value) {
+    if (typeof value !== 'object') {
+      this._currentStyle = {};
+    }
+
+    this._currentStyle = value;
+  }
+
+  initStyles(styles) {
+    this.currentStyle = styles;
+
+    return {
+      background: this.getExistProperty('background'),
+      control: {
+        background: this.getExistProperty('control.background'),
+        border: this.getBorderStyles('control')
+      },
+      arrows: {
+        size: `${this.getExistProperty('arrows.size')}px`,
+        prev: {
+          background: this.getExistProperty('arrows.prev.background'),
+          border: this.getBorderStyles('arrows.prev')
+        },
+        next: {
+          background: this.getExistProperty('arrows.next.background'),
+          border: this.getBorderStyles('arrows.next')
+        },
+      }
+    }
+  }
+  /**
+   * TODO: Add generals arrows\control find border props.
+   * 
+   * This method find nested value of properties chaining in 3 objects
+   * and return first founded trusty value.
+   * 
+   * Example: control.background => ['control', 'background'] will find:
+   * 
+   * 1. Find "control" prop in each style objects
+   * 2. Find "background" props in style.control
+   * 
+   * If prop not founded it's return for next object to initialStyles.
+  */
+  getExistProperty(target) {
+    const propsChain = target?.split('.') || target;
+    const stylesCollection = [this.currentStyle, this.componentStyles, initialStyles];
+
+    for (let i = 0; i < stylesCollection.length; i++) {
+      let currentStyle = stylesCollection[i];
+      let isExistValue = false;
+
+      for (let j = 0; j < propsChain.length; j++) {
+        const currentProp = propsChain[j];
+        const currentValue = currentStyle[currentProp];
+
+        if (!currentValue) {
+          break;
+        }
+
+        if (currentValue) {
+          currentStyle = currentValue;
+        
+          if (j === propsChain.length - 1) {
+            isExistValue = true;
+            break;
+          }
+        }
+      }
+
+      if (isExistValue) {
+        return currentStyle;
+      }
+    }
+  }
+
+  getBorderStyles(target) {
+    return [
+      `${this.getExistProperty(`${target}.borderWidth`)}px`,
+      this.getExistProperty(`${target}.borderStyle`),
+      this.getExistProperty(`${target}.borderColor`),
+    ].join(' ');
+  }
+}
 ;// CONCATENATED MODULE: ./node_modules/@vue/cli-service/node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./src/components/VuePartition.vue?vue&type=script&lang=js&
 //
 //
@@ -258,10 +378,8 @@ var staticRenderFns = []
 //
 //
 //
-//
-//
-//
-//
+
+
 
 /* harmony default export */ const VuePartitionvue_type_script_lang_js_ = ({
   model: {
@@ -269,25 +387,14 @@ var staticRenderFns = []
     event: 'input'
   },
   props: {
-    /*
-      Массив объектов данных для отображения\редактирования.
-      О свойствах объекта options читайте документацию по компоненту.
-    */
     options: {
       type: Array,
       required: true,
     },
-    /*
-      Сумма всех объектов value
-    */
     total: {
       type: Number,
       default: null,
     },
-    /*
-      Изменение по value при минимальном условии, что оно изменилось не менее
-      чем на step. Step значение должно быть целым числом.
-    */
     step: {
       type: Number,
       default: 1,
@@ -295,18 +402,10 @@ var staticRenderFns = []
         return value % 1 === 0 && value >= 1;
       }
     },
-    /*
-      Блокирование всего компонента
-    */
     disabled: {
       type: Boolean,
       default: false,
     },
-    /*
-      Глобальное v значение.
-      Если в конкретном объекте не указан minValue, то значение будет браться
-      отсюда.
-    */
     minValue: {
       type: Number,
       default: 0,
@@ -314,57 +413,50 @@ var staticRenderFns = []
         return value >= 0;
       }
     },
-    /*
-      Глобальное максимальное значение. Работает также.
-    */
     maxValue: {
       type: Number,
       default: null,
     },
+    styles: {
+      type: Object,
+      default: () => ({})
+    }
   },
   data() {
     return {
       fieldWidth: null,
       isTracking: false,
       lastControlIndex: null,
-      /*
-        Объект элемента, который редактируется на данный момент:
-        index: number - индекс объекта с options
-        el: HTMLElement - ссылка на DOM-element редактируемого айтема
-        rect: RectElement - разметка computed свойств для el
-        data - исходный объект options[index]
-      */
       control: {
         index: null,
         el: null,
         rect: {},
         data: {},
       },
-      /*
-        Стейт изменений при движении контроллера:
-        width: number - единицы обновлённой ширины.
-        value: number - единица обновлённого значения value относительно width
-        movementSide: 'left' | 'right' - направление движения мыши в момент
-        изменений.
-      */
       shiftState: {
         width: null,
         value: null,
         movementSide: ''
       },
       sourceTotal: null,
+      sourceStyles: [],
+      styleService: {},
     };
   },
   created() {
     this.sourceOptions = this.options;
-    /*
-      Создаём total на основе суммы всех value в объектах, если не передаётся
-      total через пропс
-    */
-    this.sourceTotal = this.total || this.options.reduce((acc, item) => {
-      acc += item.value || 0;
+    this.sourceTotal = this.total || this.sourceOptions.reduce((acc, item) => {
+      acc += item;
       return acc;
     }, 0);
+
+    this.styleService = new StyleService(this.styles);
+
+    this.sourceOptions.forEach(item => {
+      this.sourceStyles.push(
+        this.styleService.initStyles(item?.styles || {})
+      );
+    })
   },
   mounted() {
     this.fieldWidth = this.$refs['ui-field'].getBoundingClientRect().width;
@@ -392,10 +484,6 @@ var staticRenderFns = []
         this.$emit('input', newOptions);
       }
     },
-    /*
-      Корректировка step значения с преобразованием в width относительно
-      ширины контейнера.
-    */
     availableStep() {
       return (this.fieldWidth / this.sourceTotal) * this.step;
     },
@@ -422,11 +510,7 @@ var staticRenderFns = []
       if (!!ref.data.disabled) {
         return false;
       }
-      /*
-        shift определяет направление движения мыши.
-        Отрицательное значение - движение влево
-        Положительное значение - движение вправо
-      */
+
       const shift = pageX - (ref.rect.left + ref.rect.width);
       const shiftValue = this.parseWidthToValue(
         this.getWidthByAvailableStep(Math.abs(shift))
@@ -446,10 +530,6 @@ var staticRenderFns = []
         this.updateRefs();
       }
     },
-    /*
-      Метод определения и изменения доступного элемента относительно shift
-      и состояния контроллера.
-    */
     updateRefs(stacked = false) {
       if (Math.abs(this.shiftState.width) === 0) return false;
 
@@ -462,12 +542,7 @@ var staticRenderFns = []
 
         if (this.shiftState?.movementSide === 'right') {
           this.sourceOptions[this.control.index].value += this.shiftState.value;
-          /*
-            Если value смещения больше чем value объекта, то вычитаем разницу
-            и перевызываем метод, в котором разница в value пройдёт ещё раз все
-            проверки, чтобы, если у последующего элемента будет такое же
-            true условие, то он не сломал ничего.
-          */
+          
           if (ref.data.value - this.shiftState.value <= 0) {
             const untracked = this.shiftState.value - ref.data.value;
             this.sourceOptions[this.control.index].value -= untracked;
@@ -513,12 +588,6 @@ var staticRenderFns = []
 
               break;
             };
-            /*
-              value смещения больше ширины предыдущего редактируемого объекта
-              с учётом того, что мы уже не работаем с редактируемым объектом
-              (control.data.value === 0), поэтому производим вычисления в
-              соседних объектах
-            */
             case (
               prevRef && prevRef.data.value - this.shiftState.value <= minPrevValue
               && controlValue <= minControlValue
@@ -539,10 +608,6 @@ var staticRenderFns = []
 
               break;
             };
-            /*
-              value смещений больше ширины редактируемого объекта.
-              Вычисляем разницу и распределяем поровну между соседними объектами.
-            */
             case prevRef && controlValue - this.shiftState.value <= minControlValue: {
               const correctControlValue = controlValue - minControlValue;
               const untracked = this.shiftState.value - correctControlValue;
@@ -584,10 +649,6 @@ var staticRenderFns = []
         };
       }
     },
-    /*
-      Аксессор доступа. Запрещяет выполнение движения мышки, если не соблюдены
-      поставленные условия.
-    */
     isAccessedMovement(width) {
       if (this.shiftState.value === 0 || !this.isTracking) return false;
 
@@ -598,9 +659,7 @@ var staticRenderFns = []
       } = this.control.data;
 
       const isExistController = this.control.data.value > minControlValue;
-      /*
-        Валидация на состояния editType
-      */
+      
       switch (true) {
         case this.shiftState.movementSide === 'left' && !isExistController: {
           if (this.control.data.editType === 'local') {
@@ -646,10 +705,6 @@ var staticRenderFns = []
 
       return false;
     },
-    /*
-      Получение более подробной информации о DOM-элементе:
-      refKey: string - ключ-указатель на ref элемент
-    */
     getRefDetail(refKey) {
       const foundedRef = this.$refs[refKey][0] || this.$refs[refKey];
       const optionIndex = Number.parseInt(refKey.split('-')[2], 10)
@@ -668,9 +723,6 @@ var staticRenderFns = []
 
       return refState;
     },
-    /*
-      Получение доступного элемента относительно shift & стейта control.data
-    */
     getAvailableNextRef(trackSide = '') {
       const defaultRefIndex = this.sourceOptions.findIndex(item => {
         return !!item?.focused;
@@ -680,10 +732,6 @@ var staticRenderFns = []
         minValue: minControlValue = this.minValue || 0
       } = this.control.data;
 
-      /*
-        Поиск фокусируемого объекта, который ещё должен соответствовать
-        условиям доступности для редактирования.
-      */
       if (defaultRefIndex >= 0) {
         const defaultRef = this.getRefDetail(`ui-item-${defaultRefIndex}`);
 
@@ -691,12 +739,8 @@ var staticRenderFns = []
           return defaultRef;
         }
       }
-      /*
-        Если фокусируемого объекта нет или он не соответствует условиям,
-        то выполняем дефолтный алгоритм поиска доступных объектов.
-      */
+      
       switch (true) {
-        // Правосторонний поиск доступных объектов
         case trackSide === 'right':
         case this.shiftState.movementSide === 'right': {
           for (let i = this.control.index + 1; i < this.sourceOptions.length - 1; i++) {
@@ -709,7 +753,6 @@ var staticRenderFns = []
 
           break;
         };
-        // Левосторонний поиск доступных объектов при control.data.value <= 0;
         case trackSide === 'left':
         case this.shiftState.movementSide === 'left' && this.control.data.value <= minControlValue: {
           for (let i = this.control.index - 1; i >= 0; i--) {
@@ -741,9 +784,6 @@ var staticRenderFns = []
 
       return false;
     },
-    /*
-      Метод валидации ref-элемента на соответствие кастомным условиям.
-    */
     isValidRef(ref) {
       const {
         disabled = false,
@@ -763,31 +803,6 @@ var staticRenderFns = []
           return false;
       }
     },
-    /*
-      Вызываемый метод возвращает текущее состояние ui-field элемента:
-      total: number - ширина элемента
-      untracked: number - незарегестрированная ширина (пустое пространство)
-    */
-    fieldState() {
-      let totalWidth = 0;
-      let totalValue = 0;
-
-      for (let i = 0; i < this.sourceOptions.length; i++) {
-        const indexedRef = this.getRefDetail(`ui-item-${i}`);
-        totalWidth += parseInt(indexedRef.el.style.width);
-        totalValue += indexedRef.data.value;
-      }
-
-      return {
-        total: totalWidth,
-        untracked: this.getWidthByAvailableStep(this.fieldWidth - totalWidth),
-        totalValue: this.parseWidthToValue(totalWidth),
-      };
-    },
-    /*
-      Работает при расфокусировки\завершении событии мышки.
-      Снимает все привязки и возвращает массив с новыми value у объектов
-    */
     closeTracking() {
       if (!this.isTracking) {
         return false;
@@ -796,77 +811,10 @@ var staticRenderFns = []
       const fieldRef = this.$refs['ui-field'];
       fieldRef.removeEventListener('pointermove', this.handleMovement);
 
-      this.sourceOptions = this.sourceOptions.map(item => {
-        const itemMinValue = item.minValue || this.minValue || 0;
-        const itemMaxValue = item.maxValue || this.maxValue || null;
-
-        switch (true) {
-          case item.value < itemMinValue:
-            item.value = itemMinValue;
-            return item;
-          case itemMaxValue && item.value > itemMaxValue:
-            item.value = itemMaxValue;
-            return item;
-          default:
-            return item;
-        }
-      });
-
       this.control = {};
       this.shiftState = {};
       this.isTracking = false;
     },
-    /*
-      Пересобираем options элемента, добавляя свойства по умолчанию к тем местам,
-      которые не указаны.
-    */
-    currentStyles(item, index = null) {
-      const options = item.settings;
-      const { control = {}, arrows = {} } = item.settings;
-
-      const styles = {
-        background: options.background || 'transparent',
-        control: {
-          background: control?.background || '#FFFFFF',
-          border: [
-            `${control?.borderWidth || 1}px`,
-            control?.borderStyle || 'solid',
-            control?.borderColor || 'transparent',
-          ].join(' '),
-        },
-        arrows: {
-          size: `${arrows?.size || 10}px`,
-          prev: {
-            background: arrows?.prev?.background || arrows?.background || '#FFF',
-            border: [
-              `${arrows?.prev?.borderWidth || arrows?.borderWidth || 1}px`,
-              arrows?.prev?.borderStyle || arrows?.borderStyle || 'solid',
-              arrows?.prev?.borderColor || arrows?.borderColor || 'transparent'
-            ].join(' '),
-          },
-          next: {
-            background: arrows?.next?.background || arrows?.background || '#FFF',
-            border: [
-              `${arrows?.next?.borderWidth || arrows?.borderWidth || 1}px`,
-              arrows?.next?.borderStyle || arrows?.borderStyle || 'solid',
-              arrows?.next?.borderColor || arrows?.borderColor || 'transparent'
-            ].join(' '),
-          }
-        },
-      };
-
-      return styles;
-    },
-    /*
-      Метод вычисления доступной ширины элемента относительно availableStep.
-      Возвращает ширину, соответствующую условиям availableStep.
-
-      width: string - новая ширина
-      shift: string - разница старой ширины и width
-
-      Если не передаём 2 параметр, то просто форматируем width и возвращаем
-      его корректное значение.
-    */
     getWidthByAvailableStep(width, shift = 0) {
       const correctedWidth = width - (width % this.availableStep);
       const correctedShift = Math.abs(shift) - (Math.abs(shift) % this.availableStep);
@@ -882,11 +830,9 @@ var staticRenderFns = []
           return correctedWidth;
       }
     },
-    // Парсим value объекта в ширину относительно ширины контейнера
     parseValueToWidth(value) {
       return value * (this.fieldWidth / this.sourceTotal);
     },
-    // Парсим ширишу элемента в value
     parseWidthToValue(width) {
       return width / this.availableStep;
     },

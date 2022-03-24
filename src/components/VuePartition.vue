@@ -107,17 +107,17 @@ export default {
   },
   created() {
     this.sourceOptions = this.options;
-    this.sourceTotal = this.total || this.sourceOptions.reduce((acc, item) => {
-      acc += item;
-      return acc;
-    }, 0);
-
     this.styleService = new StyleService(this.styles);
+    this.sourceTotal = this.total;
 
     this.sourceOptions.forEach(item => {
       this.sourceStyles.push(
         this.styleService.initStyles(item?.styles || {})
       );
+
+      if (!this.total) {
+        this.sourceTotal += item?.value || 0;
+      }
     })
   },
   mounted() {
@@ -184,6 +184,10 @@ export default {
         movementSide: shift > 0 ? 'right' : 'left'
       };
 
+      if (this.shiftState.value < this.step) {
+        return false;
+      }
+
       const isAccessMovement = this.isAccessedMovement(
         this.getWidthByAvailableStep(ref.rect.width, this.shiftState.width)
       );
@@ -192,7 +196,7 @@ export default {
         this.updateRefs();
       }
     },
-    updateRefs(stacked = false) {
+    updateRefs() {
       if (Math.abs(this.shiftState.width) === 0) return false;
 
       for (let i = this.control.index + 1; i < this.sourceOptions.length; i++) {
@@ -311,7 +315,7 @@ export default {
         };
       }
     },
-    isAccessedMovement(width) {
+    isAccessedMovement() {
       if (this.shiftState.value === 0 || !this.isTracking) return false;
 
       const {
@@ -340,10 +344,6 @@ export default {
         };
         case this.shiftState.movementSide === 'right': {
           const nextRef = this.getAvailableNextRef();
-          const {
-            value,
-            minValue = this.minValue || 0
-          } = nextRef.data;
 
           if (this.control.data.editType === 'local' && nextRef.index !== this.control.index + 1) {
             return false;
@@ -364,8 +364,6 @@ export default {
           return !nextRef.disabled && nextRef.isValid;
         }
       }
-
-      return false;
     },
     getRefDetail(refKey) {
       const foundedRef = this.$refs[refKey][0] || this.$refs[refKey];

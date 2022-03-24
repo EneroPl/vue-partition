@@ -1,6 +1,6 @@
 {
   "name": "@eneropl/vue-partition",
-  "version": "1.0.0",
+  "version": "1.0.5",
   "description": "",
   "main": "./dist/VuePartition.umd.min.js",
   "browser": "./dist/VuePartition.umd.min.js",
