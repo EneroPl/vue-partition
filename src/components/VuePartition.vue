@@ -41,7 +41,8 @@
 </template>
 
 <script>
-import { StyleService } from './../../services/styles';
+import StyleService from './../services/styles.js';
+import StepService from './../services/steps.js';
 
 export default {
   model: {
@@ -102,7 +103,9 @@ export default {
       },
       sourceTotal: null,
       sourceStyles: [],
+
       styleService: {},
+      stepService: {},
     };
   },
   created() {
@@ -118,7 +121,8 @@ export default {
       if (!this.total) {
         this.sourceTotal += item?.value || 0;
       }
-    })
+    });
+
   },
   mounted() {
     this.fieldWidth = this.$refs['ui-field'].getBoundingClientRect().width;
@@ -131,7 +135,13 @@ export default {
           this.handleClick(e, index);
         })
       }
-    })
+    });
+
+    this.stepService = new StepService({
+      step: this.step || 1,
+      wrapperWidth: this.fieldWidth,
+      totalValue: this.sourceTotal
+    });
   },
   beforeDestroy() {
     this.closeTracking();
@@ -145,9 +155,6 @@ export default {
       set(newOptions) {
         this.$emit('input', newOptions);
       }
-    },
-    availableStep() {
-      return (this.fieldWidth / this.sourceTotal) * this.step;
     },
   },
   methods: {
@@ -174,9 +181,8 @@ export default {
       }
 
       const shift = pageX - (ref.rect.left + ref.rect.width);
-      const shiftValue = this.parseWidthToValue(
-        this.getWidthByAvailableStep(Math.abs(shift))
-      );
+      const availableShift = this.stepService.getValueByAvailableStep(Math.abs(shift));
+      const shiftValue = this.stepService.getValueByWidth(availableShift);
 
       this.shiftState = {
         width: shift,
@@ -189,7 +195,7 @@ export default {
       }
 
       const isAccessMovement = this.isAccessedMovement(
-        this.getWidthByAvailableStep(ref.rect.width, this.shiftState.width)
+        this.stepService.getValueByAvailableStep(ref.rect.width, this.shiftState)
       );
 
       if (isAccessMovement) {
@@ -458,7 +464,7 @@ export default {
         case this.shiftState.movementSide === 'right':
           return minValue < value;
         case this.shiftState.movementSide === 'left':
-          return minValue <= value && value < maxValue;
+          return (minValue <= value && value < maxValue) || this.control.index + 1 === ref.index;
         default:
           return false;
       }
@@ -475,26 +481,8 @@ export default {
       this.shiftState = {};
       this.isTracking = false;
     },
-    getWidthByAvailableStep(width, shift = 0) {
-      const correctedWidth = width - (width % this.availableStep);
-      const correctedShift = Math.abs(shift) - (Math.abs(shift) % this.availableStep);
-
-      switch (true) {
-        case shift === 0:
-          return correctedWidth;
-        case this.shiftState.movementSide === 'right':
-          return correctedWidth + correctedShift;
-        case this.shiftState.movementSide === 'left':
-          return correctedWidth - correctedShift;
-        default:
-          return correctedWidth;
-      }
-    },
     parseValueToWidth(value) {
       return value * (this.fieldWidth / this.sourceTotal);
-    },
-    parseWidthToValue(width) {
-      return width / this.availableStep;
     },
   }
 }

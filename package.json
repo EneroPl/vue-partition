@@ -1,11 +1,12 @@
 {
   "name": "@eneropl/vue-partition",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "",
   "main": "./dist/VuePartition.umd.min.js",
   "browser": "./dist/VuePartition.umd.min.js",
   "module": "./dist/VuePartition.umd.min.js",
   "unpkg": "./dist/VuePartition.umd.min.js",
+  "homepage": "https://github.com/EneroPl/vue-partition",
   "scripts": {
     "serve": "./scripts/init.sh && vue-cli-service serve serve/index.js",
     "build": "vue-cli-service build --target lib --name VuePartition src/index.js"

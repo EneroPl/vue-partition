@@ -27,7 +27,7 @@ const initialStyles = {
   }
 };
 
-export class StyleService {
+export default class StyleService {
   constructor (componentStyles) {
     this.componentStyles = componentStyles;
     this._currentStyle = {};
