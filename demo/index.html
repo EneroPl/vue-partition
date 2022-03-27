@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Technical specifications | @eneropl/vue-partition</title>
+    <meta name="generator" content="VuePress 1.9.7">
+    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Vue.js_Logo_2.svg/1184px-Vue.js_Logo_2.svg.png">
+    <meta name="description" content="Partitioning is the division of stored database objects into separate parts with separate physical storage parameters.">
+    <meta name="theme-color" content="#3eaf7c">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    
+    <link rel="preload" href="/vue-partition/assets/css/0.styles.ccc7f61d.css" as="style"><link rel="preload" href="/vue-partition/assets/js/app.7b34e062.js" as="script"><link rel="preload" href="/vue-partition/assets/js/2.0513a9a4.js" as="script"><link rel="preload" href="/vue-partition/assets/js/4.361146d7.js" as="script"><link rel="prefetch" href="/vue-partition/assets/js/10.3ef28d61.js"><link rel="prefetch" href="/vue-partition/assets/js/3.6c720550.js"><link rel="prefetch" href="/vue-partition/assets/js/5.4ce04727.js"><link rel="prefetch" href="/vue-partition/assets/js/6.ec03b737.js"><link rel="prefetch" href="/vue-partition/assets/js/7.6dd70dda.js"><link rel="prefetch" href="/vue-partition/assets/js/8.72070160.js"><link rel="prefetch" href="/vue-partition/assets/js/9.e9877926.js">
+    <link rel="stylesheet" href="/vue-partition/assets/css/0.styles.ccc7f61d.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/vue-partition/" class="home-link router-link-active"><!----> <span class="site-name">@eneropl/vue-partition</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/vue-partition/guide/" class="nav-link">
+  Guide
+</a></div><div class="nav-item"><a href="/vue-partition/demo/" aria-current="page" class="nav-link router-link-exact-active router-link-active">
+  Demo
+</a></div><div class="nav-item"><a href="/vue-partition/logs/" class="nav-link">
+  Logs
+</a></div><div class="nav-item"><a href="https://t.me/eneropl" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Contacts
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <a href="https://github.com/EneroPl/vue-partition" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/vue-partition/guide/" class="nav-link">
+  Guide
+</a></div><div class="nav-item"><a href="/vue-partition/demo/" aria-current="page" class="nav-link router-link-exact-active router-link-active">
+  Demo
+</a></div><div class="nav-item"><a href="/vue-partition/logs/" class="nav-link">
+  Logs
+</a></div><div class="nav-item"><a href="https://t.me/eneropl" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Contacts
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <a href="https://github.com/EneroPl/vue-partition" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></nav>  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>Demonstration</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/vue-partition/demo/" aria-current="page" class="active sidebar-link">Technical specifications</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/vue-partition/demo/#demo-component" class="sidebar-link">Demo component</a></li><li class="sidebar-sub-header"><a href="/vue-partition/demo/#with-control" class="sidebar-link">With control</a></li><li class="sidebar-sub-header"><a href="/vue-partition/demo/#with-minvalue-maxvalue" class="sidebar-link">With minValue &amp; maxValue</a></li><li class="sidebar-sub-header"><a href="/vue-partition/demo/#disabled-section" class="sidebar-link">Disabled section</a></li></ul></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="technical-specifications"><a href="#technical-specifications" class="header-anchor">#</a> Technical specifications</h1> <div class="custom-block tip"><p class="custom-block-title">TIP</p> <p>This section will provide examples of using component properties that define behavior and state.
+If you are interested in seeing visual examples, then <a href="/demo/styles">go here</a></p></div> <h2 id="demo-component"><a href="#demo-component" class="header-anchor">#</a> Demo component</h2> <p>A demo component with sections might look like this:</p> <div class="ui-partition serve__component"><div class="ui-partition__field"><div class="ui-partition__items"><div class="ui-partition__item" style="--item-background:#FED6BC;width:0px;"><!----></div><div class="ui-partition__item" style="--item-background:#199900;width:0px;"><!----></div><div class="ui-partition__item" style="--item-background:#efca66;width:0px;"><!----></div><div class="ui-partition__item" style="--item-background:#C6D8FF;width:0px;"><!----></div></div></div></div> <details class="custom-block details"><summary>View code</summary> <div class="language-vue extra-class"><pre class="language-vue"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>VuePartition</span>
+    <span class="token attr-name">v-model</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>options<span class="token punctuation">&quot;</span></span>
+    <span class="token attr-name">:total</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>total<span class="token punctuation">&quot;</span></span>
+  <span class="token punctuation">/&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>template</span><span class="token punctuation">&gt;</span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">&gt;</span></span><span class="token script"><span class="token language-javascript">
+<span class="token keyword">import</span> <span class="token punctuation">{</span> VuePartition <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@eneropl/vue-partition'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+  <span class="token literal-property property">components</span><span class="token operator">:</span> <span class="token punctuation">{</span> VuePartition <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token function">data</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">{</span>
+      <span class="token literal-property property">options</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">{</span>
+          <span class="token literal-property property">value</span><span class="token operator">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+          <span class="token literal-property property">styles</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token literal-property property">background</span><span class="token operator">:</span> <span class="token string">'#FED6BC'</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">{</span>
+          <span class="token literal-property property">value</span><span class="token operator">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+          <span class="token literal-property property">styles</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token literal-property property">background</span><span class="token operator">:</span> <span class="token string">'#199900'</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">{</span>
+          <span class="token literal-property property">value</span><span class="token operator">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+          <span class="token literal-property property">styles</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token literal-property property">background</span><span class="token operator">:</span> <span class="token string">'#efca66'</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">{</span>
+          <span class="token literal-property property">value</span><span class="token operator">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+          <span class="token literal-property property">styles</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token literal-property property">background</span><span class="token operator">:</span> <span class="token string">'#C6D8FF'</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">]</span><span class="token punctuation">,</span>
+      <span class="token literal-property property">total</span><span class="token operator">:</span> <span class="token number">400</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div></details> <h2 id="with-control"><a href="#with-control" class="header-anchor">#</a> With control</h2> <p>A component with an editable section that has no limits on adjacent sections:</p> <div class="custom-block tip"><p class="custom-block-title">Conditions</p> <p>With some properties &quot;editable&quot; will be ignored. <a href="/guide/properties">See documentation props</a></p></div> <div class="ui-partition serve__component"><div class="ui-partition__field"><div class="ui-partition__items"><div class="ui-partition__item" style="--item-background:#FED6BC;width:0px;"><!----></div><div class="ui-partition__item" style="--item-background:#199900;width:0px;"><div class="ui-partition__control" style="--control-background:#FFFFFF;--control-border:1px solid #FFFFFF;--arrow-size:10px;z-index:1;"><div class="ui-partition__arrow ui-partition__arrow--prev" style="--arrow-background:#FFFFFF;--arrow-border:1px solid #FFFFFF;"></div><div class="ui-partition__arrow ui-partition__arrow--next" style="--arrow-background:#FFFFFF;--arrow-border:1px solid #FFFFFF;"></div></div></div><div class="ui-partition__item" style="--item-background:#efca66;width:0px;"><!----></div><div class="ui-partition__item" style="--item-background:#C6D8FF;width:0px;"><!----></div></div></div></div> <details class="custom-block details"><summary>View code</summary> <div class="language-vue extra-class"><pre class="language-vue"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>VuePartition</span>
+    <span class="token attr-name">v-model</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>options<span class="token punctuation">&quot;</span></span>
+    <span class="token attr-name">:total</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>total<span class="token punctuation">&quot;</span></span>
+  <span class="token punctuation">/&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>template</span><span class="token punctuation">&gt;</span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">&gt;</span></span><span class="token script"><span class="token language-javascript">
+<span class="token keyword">import</span> <span class="token punctuation">{</span> VuePartition <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@eneropl/vue-partition'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+  <span class="token literal-property property">components</span><span class="token operator">:</span> <span class="token punctuation">{</span> VuePartition <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token function">data</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">{</span>
+      <span class="token literal-property property">options</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">{</span>
+          <span class="token literal-property property">value</span><span class="token operator">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+          <span class="token literal-property property">styles</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token literal-property property">background</span><span class="token operator">:</span> <span class="token string">'#FED6BC'</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">{</span>
+          <span class="token literal-property property">value</span><span class="token operator">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+          <span class="token literal-property property">editable</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+          <span class="token literal-property property">styles</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token literal-property property">background</span><span class="token operator">:</span> <span class="token string">'#199900'</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">{</span>
+          <span class="token literal-property property">value</span><span class="token operator">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+          <span class="token literal-property property">styles</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token literal-property property">background</span><span class="token operator">:</span> <span class="token string">'#efca66'</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">{</span>
+          <span class="token literal-property property">value</span><span class="token operator">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+          <span class="token literal-property property">styles</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token literal-property property">background</span><span class="token operator">:</span> <span class="token string">'#C6D8FF'</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">]</span><span class="token punctuation">,</span>
+      <span class="token literal-property property">total</span><span class="token operator">:</span> <span class="token number">400</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div></details> <h2 id="with-minvalue-maxvalue"><a href="#with-minvalue-maxvalue" class="header-anchor">#</a> With minValue &amp; maxValue</h2> <p>A component that represents sections with specified minimum and maximum values ​​that are guaranteed to be kept behind the section.</p> <div class="custom-block tip"><p class="custom-block-title">Conditions</p> <p>Some conditions you set may be validated by the component and ignored when changed.</p></div> <div class="ui-partition serve__component"><div class="ui-partition__field"><div class="ui-partition__items"><div class="ui-partition__item" style="--item-background:#FED6BC;width:0px;"><!----></div><div class="ui-partition__item" style="--item-background:#199900;width:0px;"><div class="ui-partition__control" style="--control-background:#FFFFFF;--control-border:1px solid #FFFFFF;--arrow-size:10px;z-index:1;"><div class="ui-partition__arrow ui-partition__arrow--prev" style="--arrow-background:#FFFFFF;--arrow-border:1px solid #FFFFFF;"></div><div class="ui-partition__arrow ui-partition__arrow--next" style="--arrow-background:#FFFFFF;--arrow-border:1px solid #FFFFFF;"></div></div></div><div class="ui-partition__item" style="--item-background:#efca66;width:0px;"><!----></div><div class="ui-partition__item" style="--item-background:#C6D8FF;width:0px;"><!----></div></div></div></div> <details class="custom-block details"><summary>View code</summary> <div class="language-vue extra-class"><pre class="language-vue"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>VuePartition</span>
+    <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>serve__component<span class="token punctuation">&quot;</span></span>
+    <span class="token attr-name">v-model</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>options<span class="token punctuation">&quot;</span></span>
+    <span class="token attr-name">:total</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>total<span class="token punctuation">&quot;</span></span>
+  <span class="token punctuation">/&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>template</span><span class="token punctuation">&gt;</span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">&gt;</span></span><span class="token script"><span class="token language-javascript">
+<span class="token keyword">import</span> <span class="token punctuation">{</span> VuePartition <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@eneropl/vue-partition'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+  <span class="token literal-property property">components</span><span class="token operator">:</span> <span class="token punctuation">{</span> VuePartition <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token function">data</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">{</span>
+      <span class="token literal-property property">options</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">{</span>
+          <span class="token literal-property property">value</span><span class="token operator">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+          <span class="token literal-property property">maxValue</span><span class="token operator">:</span> <span class="token number">150</span><span class="token punctuation">,</span>
+          <span class="token literal-property property">styles</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token literal-property property">background</span><span class="token operator">:</span> <span class="token string">'#FED6BC'</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">{</span>
+          <span class="token literal-property property">value</span><span class="token operator">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+          <span class="token literal-property property">minValue</span><span class="token operator">:</span> <span class="token number">50</span><span class="token punctuation">,</span>
+          <span class="token literal-property property">editable</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+          <span class="token literal-property property">styles</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token literal-property property">background</span><span class="token operator">:</span> <span class="token string">'#199900'</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">{</span>
+          <span class="token literal-property property">value</span><span class="token operator">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+          <span class="token literal-property property">styles</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token literal-property property">background</span><span class="token operator">:</span> <span class="token string">'#efca66'</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">{</span>
+          <span class="token literal-property property">value</span><span class="token operator">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+          <span class="token literal-property property">minValue</span><span class="token operator">:</span> <span class="token number">50</span><span class="token punctuation">,</span>
+          <span class="token literal-property property">styles</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token literal-property property">background</span><span class="token operator">:</span> <span class="token string">'#C6D8FF'</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">]</span><span class="token punctuation">,</span>
+      <span class="token literal-property property">total</span><span class="token operator">:</span> <span class="token number">400</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div></details> <h2 id="disabled-section"><a href="#disabled-section" class="header-anchor">#</a> Disabled section</h2> <p>A locked section of a component along with sections that have &quot;minValue&quot; and &quot;maxValue&quot; properties:</p> <div class="ui-partition serve__component"><div class="ui-partition__field"><div class="ui-partition__items"><div class="ui-partition__item" style="--item-background:#FED6BC;width:0px;"><!----></div><div class="ui-partition__item" style="--item-background:#199900;width:0px;"><div class="ui-partition__control" style="--control-background:#FFFFFF;--control-border:1px solid #FFFFFF;--arrow-size:10px;z-index:1;"><div class="ui-partition__arrow ui-partition__arrow--prev" style="--arrow-background:#FFFFFF;--arrow-border:1px solid #FFFFFF;"></div><div class="ui-partition__arrow ui-partition__arrow--next" style="--arrow-background:#FFFFFF;--arrow-border:1px solid #FFFFFF;"></div></div></div><div class="ui-partition__item" style="--item-background:#efca66;width:0px;"><!----></div><div class="ui-partition__item" style="--item-background:#C6D8FF;width:0px;"><!----></div></div></div></div> <details class="custom-block details"><summary>View code</summary> <div class="language-vue extra-class"><pre class="language-vue"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>VuePartition</span>
+    <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>serve__component<span class="token punctuation">&quot;</span></span>
+    <span class="token attr-name">v-model</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>options<span class="token punctuation">&quot;</span></span>
+    <span class="token attr-name">:total</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>total<span class="token punctuation">&quot;</span></span>
+  <span class="token punctuation">/&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>template</span><span class="token punctuation">&gt;</span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">&gt;</span></span><span class="token script"><span class="token language-javascript">
+<span class="token keyword">import</span> <span class="token punctuation">{</span> VuePartition <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@eneropl/vue-partition'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+  <span class="token literal-property property">components</span><span class="token operator">:</span> <span class="token punctuation">{</span> VuePartition <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token function">data</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">{</span>
+      <span class="token literal-property property">options</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">{</span>
+          <span class="token literal-property property">value</span><span class="token operator">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+          <span class="token literal-property property">maxValue</span><span class="token operator">:</span> <span class="token number">150</span><span class="token punctuation">,</span>
+          <span class="token literal-property property">styles</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token literal-property property">background</span><span class="token operator">:</span> <span class="token string">'#FED6BC'</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">{</span>
+          <span class="token literal-property property">value</span><span class="token operator">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+          <span class="token literal-property property">minValue</span><span class="token operator">:</span> <span class="token number">50</span><span class="token punctuation">,</span>
+          <span class="token literal-property property">editable</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+          <span class="token literal-property property">styles</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token literal-property property">background</span><span class="token operator">:</span> <span class="token string">'#199900'</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">{</span>
+          <span class="token literal-property property">value</span><span class="token operator">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+          <span class="token literal-property property">styles</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token literal-property property">background</span><span class="token operator">:</span> <span class="token string">'#efca66'</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">{</span>
+          <span class="token literal-property property">value</span><span class="token operator">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+          <span class="token literal-property property">disabled</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+          <span class="token literal-property property">styles</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token literal-property property">background</span><span class="token operator">:</span> <span class="token string">'#C6D8FF'</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">]</span><span class="token punctuation">,</span>
+      <span class="token literal-property property">total</span><span class="token operator">:</span> <span class="token number">400</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div></details></div> <footer class="page-edit"><!----> <!----></footer> <!----> </main></div><div class="global-ui"></div></div>
+    <script src="/vue-partition/assets/js/app.7b34e062.js" defer></script><script src="/vue-partition/assets/js/2.0513a9a4.js" defer></script><script src="/vue-partition/assets/js/4.361146d7.js" defer></script>
+  </body>
+</html>
