@@ -1,4 +1,5 @@
 - [Documentation](https://eneropl.github.io/vue-partition/)
+- [NPM Package](https://www.npmjs.com/package/@eneropl/vue-partition)
 
 ## Install & Usage
 
