@@ -17,5 +17,5 @@ Once the package is installed, you can import it into your component:
  <VuePartition />
 
 // script
-import VuePartition from '@eneropl/vue-partition';
+import { VuePartition } from '@eneropl/vue-partition';
 ```
