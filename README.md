@@ -1,3 +1,7 @@
+# Vue-Partition
+
+Partitioning is the division of stored database objects into separate parts with separate physical storage parameters. This component represents the partitioning visualization.
+
 - [Documentation](https://eneropl.github.io/vue-partition/)
 - [NPM Package](https://www.npmjs.com/package/@eneropl/vue-partition)
 
